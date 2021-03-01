@@ -7,8 +7,16 @@ from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import time
 
+def init_browser():
+    # Execute Chromedriver (add in again in case you close the browser)
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+
+
 # Define scrape function
 def scrape():
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
     #Create Dictonary
     mars_library = {}
 
@@ -17,19 +25,27 @@ def scrape():
     #############################
     # URL of page to be scraped
     url = 'https://mars.nasa.gov/news/?page=0&per_page=40&order=publish_date+desc%2Ccreated_at+desc&search=&category=19%2C165%2C184%2C204&blank_scope=Latest'
-    # Retrieve page with the requests module
-    response = requests.get(url)
-    html=response.content
+    #Visit url
+    browser.visit(url)
+    #assign html content
+    html=browser.html
     soup = BeautifulSoup(html, 'html.parser')
-    #Get latest news paragraph
-    results_p = soup.find_all('div', class_="image_and_description_container")
-    result_p=results_p[0].find('div', class_="rollover_description_inner").text.strip()   
-    #Get latest news title
-    results_t = soup.find_all('div', class_="content_title")
-    result_t=results_t[0].find('a', class_="").get_text().strip()
-    #Save title and paragraph into mars_library dictionary
-    mars_library['news_title'] = result_t
-    mars_library['news_p'] = result_p
+    try:
+        #Get latest news paragraph
+        results_p = soup.find_all('div', class_="image_and_description_container")
+        result_p=results_p[0].find('div', class_="rollover_description_inner").text.strip()   
+        #Get latest news title
+        results_t = soup.find_all('div', class_="content_title")
+        result_t=results_t[0].find('a').text.strip()
+        #Save title and paragraph into mars_library dictionary
+        mars_library['news_title'] = result_t
+        mars_library['news_p'] = result_p
+
+    except AttributeError:
+        result_t="Error scrapping title"
+        mars_library['news_title'] = result_t
+        result_p="Error scrapping paragraph"
+        mars_library['news_p'] = result_p
 
     #############################
     ####JPL Mars Space Images####
@@ -59,16 +75,14 @@ def scrape():
     #Set Description as new index
     mars_facts.set_index('Description', inplace=True)
     # Export df as html file
-    mars_facts_html=df.to_html(justify='left')
+    mars_facts_html=mars_facts.to_html(justify='left')
     # Save info into Library
     mars_library['mars_facts'] = mars_facts_html
 
     #############################
     ####    Mars Hemisperes  ####
     #############################
-    # Execute Chromedriver (add in again in case you close the browser)
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
+
     # URL of page to be scraped
     url_hemis = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
     #Visit the page using the browser
