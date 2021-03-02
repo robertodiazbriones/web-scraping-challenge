@@ -30,22 +30,25 @@ def scrape():
     #assign html content
     html=browser.html
     soup = BeautifulSoup(html, 'html.parser')
+
     try:
         #Get latest news paragraph
         results_p = soup.find_all('div', class_="image_and_description_container")
-        result_p=results_p[0].find('div', class_="rollover_description_inner").text.strip()   
+        result_p=results_p[0].find('div', class_="rollover_description_inner").text.strip() 
+
+    except AttributeError:
+        result_p="Error scrapping paragraph"
+
+    try:
         #Get latest news title
         results_t = soup.find_all('div', class_="content_title")
         result_t=results_t[0].find('a').text.strip()
-        #Save title and paragraph into mars_library dictionary
-        mars_library['news_title'] = result_t
-        mars_library['news_p'] = result_p
-
     except AttributeError:
         result_t="Error scrapping title"
-        mars_library['news_title'] = result_t
-        result_p="Error scrapping paragraph"
-        mars_library['news_p'] = result_p
+
+    #Save title and paragraph into mars_library dictionary
+    mars_library['news_title'] = result_t
+    mars_library['news_p'] = result_p
 
     #############################
     ####JPL Mars Space Images####
@@ -58,7 +61,7 @@ def scrape():
     # Create a Beautiful Soup object
     soup2 = BeautifulSoup(html, "html5lib")
     #Scrape Path for the Feature Image. got the partial path of the url
-    picture_address = soup2.find_all('div', class_='sm:object-cover object-cover')[8].find('img').attrs['src'].strip()
+    picture_address = soup2.find_all('div', class_='sm:object-cover object-cover')[9].find('img').attrs['src'].strip()
     #Save picture_address into mars_library dictionary
     mars_library['featured_image_url'] = picture_address
 

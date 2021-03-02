@@ -17,35 +17,35 @@
     <a class="btn btn-primary" href="/scrape" role="button">Scrape New Data</a>
   </div>
 
-  <div class="container text-center">
-	<div class="row">
-	  <div class="col-lg-12 mb-6  border border-secondary" style="background-color:lightgrey;">
-	    <div class="thumbnail">
-	      <h2 class="text-primary pt-4">Latest Mars News</h2>
-	      <hr>
-	      <h4>{{mars.news_title}}</h4>
-	      <p>{{mars.news_p}}</p>
-	      <br>
-	    </div>
-	  </div>
-	</div>
+  <div class="container text-left">
+    <div class="row">
+      <div class="col-lg-12 mb-6 border border-secondary" style="background-color:whitesmoke;">
+        <div class="thumbnail">
+          <h2 class="text-primary pt-4">Latest Mars News</h2>
+          <hr>
+          <h4>{{mars.news_title}}</h4>
+          <p>{{mars.news_p}}</p>
+          <br>
+        </div>
+      </div>
+    </div>
   </div>
       
-  <div class="container text-center">	
+  <div class="container overflow-hidden ml-5 mt-5 mr-5 mb-5">	
     <div class="row">
-      <div class="col-lg-6 mb-6  border border-secondary" style="background-color:lightgrey;">
+      <div class="col-6" style="background-color:white;">
         <h2 class="text-primary pt-4">Featured Mars Image</h2>
         <hr>
-		<a href={{mars.featured_image_url}}>
-          <img class="img-responsive" src={{mars.featured_image_url}} alt="Mars' Featured Image" style="width:100%"></a>
+          <img class="img-responsive" src={{mars.featured_image_url}} alt="Mars' Featured Image" style="width:100%">
       </div>
-      <hr>
-      <div class="col-lg-6 mb-6 border border-secondary" style="background-color:lightgrey;">
-          <h2 class="text-primary pt-4">Mars Facts</h2>
-          <hr>
-          	{{mars.mars_facts}}
-        </div>
-      </div>        
+
+      <div class="col-6" style="background-color:white;">
+        <h2 class="text-primary pt-4">Mars Facts</h2>
+        <hr>
+        <table>
+          {{mars.mars_facts}}
+        </table>
+      </div>       
     </div>
   </div>
   <hr>
@@ -53,15 +53,15 @@
   <br>
   <div class="container text-center">
 	<div class="row">
-      <div class="col-md-12 border border-secondary" style="background-color:lightgrey;">
+      <div class="col-md-12" style="background-color:white">
       	<h2 class="text-primary pt-4 text-center">Mars Hemispheres</h2>
       </div>
       {% for item in mars.hemisphere_image_urls %}   
-      <div class="col-md-6 border border-secondary" style="background-color:rlightgrey;">
-        <h5 class="text-info">{{item.title}}</h5>
+      <div class="col-md-6 border border-secondary" style="background-color:white">
         <a href={{item.img_url}}>
           <img class="img-fluid" src={{item.img_url}} alt={{item.title}} style="width:100%">
         </a>
+        <h5 class="text-info">{{item.title}}</h5>
       </div>
         {% endfor %}
       </div>
