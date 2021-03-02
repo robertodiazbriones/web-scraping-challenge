@@ -120,6 +120,8 @@ def scrape():
         #go back to main page
         browser.visit(url_hemis)
         time.sleep(1)
+    #Close Browser
+    browser.quit()
     # Put infos into Library
     mars_library['hemisphere_image_urls']=hemis_image_urls
     
