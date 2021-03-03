@@ -8,4 +8,5 @@ First we have to scrape next data from websites provided.
 -Visit the Mars Facts webpage scrape the table containing facts about the planet including Diameter, Mass, etc.  
 -Visit the USGS Astrogeology site and obtain high resolution images for each of Mar's hemispheres.  
 
+Now that we have all the info needed use MongoDB with Flask templating to create a new HTML page that displays all of the information that was scraped from step 1.
 
