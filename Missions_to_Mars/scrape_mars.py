@@ -35,14 +35,12 @@ def scrape():
         #Get latest news paragraph
         results_p = soup.find_all('div', class_="image_and_description_container")
         result_p=results_p[0].find('div', class_="rollover_description_inner").text.strip() 
-
     except AttributeError:
         result_p="Error scrapping paragraph"
 
     try:
         #Get latest news title
-        results_t = soup.find_all('div', class_="content_title")
-        result_t=results_t[0].find('a').text.strip()
+        result_t= soup.find_all('div', class_="content_title")[1].text
     except AttributeError:
         result_t="Error scrapping title"
 
